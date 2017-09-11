@@ -64,9 +64,9 @@ def h(
     headers = {'User-Agent': user_agent}
     headers.update(extra_headers)
 
-    data = urllib.parse.urlencode(v) if v else None
-    req = urllib2.Request(url, data, headers)
-    response = urllib2.urlopen(req)
+    data = urllib.parse.urlencode(v).encode() if v else None
+    req = urllib.request.Request(url, data, headers)
+    response = urllib.request.urlopen(req)
     if progress:
         result = chunk_read(response, report_hook=chunk_report)
     else:

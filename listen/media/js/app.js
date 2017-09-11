@@ -57,7 +57,7 @@
 
     // playlist window
     $scope.resetWindow = function() {
-      $scope.cover_img_url = '../../images/loading.gif';
+      $scope.cover_img_url = '/listener/static/images/loading.gif';
       $scope.playlist_title = '';
       $scope.songs = [];
     };

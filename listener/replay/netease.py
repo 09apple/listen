@@ -233,7 +233,7 @@ def search_track(keyword):
     }
     jc = _ne_h(search_url, data)
     result = []
-    for song in json.loads(jc)["result"]["songs"]:
+    for song in json.loads(str(jc))["result"]["songs"]:
         if song['status'] == -1:
             continue
         result.append(_convert_song(song))
