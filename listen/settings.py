@@ -12,9 +12,12 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 
 import os
 
+path = lambda root, *a: os.path.join(root, *a)
+ROOT = os.path.dirname(os.path.abspath(__file__))
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+MEDIA_ROOT = path(ROOT, 'media')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
