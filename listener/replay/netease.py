@@ -108,9 +108,9 @@ def _ne_h(url, v=None):
 
 
 def _gen_url_params(d):
-    for k, v in d.iteritems():
-        d[k] = v.encode('utf-8')
-    return urllib.urlencode(d)
+    for k, v in d.items():
+        d[k] = v
+    return urllib.parse.urlencode(d)
 
 
 def _convert_song(song):
@@ -233,7 +233,7 @@ def search_track(keyword):
     }
     jc = _ne_h(search_url, data)
     result = []
-    for song in json.loads(str(jc))["result"]["songs"]:
+    for song in json.loads(str(jc.decode('utf-8')))["result"]["songs"]:
         if song['status'] == -1:
             continue
         result.append(_convert_song(song))

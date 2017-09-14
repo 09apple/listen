@@ -59,9 +59,9 @@ def _xm_h(url, v=None):
 
 
 def _gen_url_params(d):
-    for k, v in d.iteritems():
-        d[k] = v.encode('utf-8')
-    return urllib.urlencode(d)
+    for k, v in d.items():
+        d[k] = v
+    return urllib.parse.urlencode(d)
 
 
 def _convert_song(song):
@@ -101,7 +101,7 @@ def search_track(keyword):
         '&r=search/songs'
     response = _xm_h(search_url)
     json_string = response[len('jsonp154('):-len(')')]
-    data = json.loads(json_string)
+    data = json.loads(str(json_string.decode('utf-8')))
     result = []
     for song in data['data']["songs"]:
         result.append(_convert_song(song))
@@ -209,6 +209,7 @@ def get_album(album_id):
 def get_url_by_id(song_id):
     url = 'http://www.xiami.com/song/playlist/id/%s' % song_id + \
         '/object_name/default/object_id/0/cat/json'
+
     response = h(url)
     secret = json.loads(response)['data']['trackList'][0]['location']
     url = caesar(secret)

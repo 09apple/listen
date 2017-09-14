@@ -6,6 +6,8 @@ urlpatterns = [
 
     url(r'^$', views.index, name='index'),
 
+    url(r'^track_file', views.trackFile, name='trackfile'),
+
     url(r'^search', views.Search, name='search'),
     url(r'^dbvalidcode', views.ValidCode, name='validcode'),
     url(r'^show_playlist', views.ShowPlayList, name='showplaylist'),

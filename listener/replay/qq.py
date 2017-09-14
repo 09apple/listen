@@ -59,9 +59,9 @@ def _get_image_url(qqimgid, img_type):
 
 
 def _gen_url_params(d):
-    for k, v in d.iteritems():
-        d[k] = v.encode('utf-8')
-    return urllib.urlencode(d)
+    for k, v in d.items():
+        d[k] = v
+    return urllib.parse.urlencode(d)
 
 
 def _convert_song(song):
@@ -182,7 +182,7 @@ def search_track(keyword):
         '&t=0&flag=1&ie=utf-8&sem=1&aggr=0&perpage=20&n=20&p=1' + \
         '&remoteplace=txt.mqq.all&_=1459991037831&jsonpCallback=jsonp4'
     response = _qq_h(url % keyword)
-    data = json.loads(response[len('jsonp4('):-len(')')])
+    data = json.loads(str(response[len('jsonp4('):-len(')')].decode('utf-8')))
 
     result = []
     for song in data["data"]["song"]["list"]:

@@ -76,9 +76,9 @@ def remove_douban_token_ck():
 
 
 def _gen_url_params(d):
-    for k, v in d.iteritems():
-        d[k] = v.encode('utf-8')
-    return urllib.urlencode(d)
+    for k, v in d.items():
+        d[k] = v
+    return urllib.parse.urlencode(d)
 
 
 def _convert_song(song):
@@ -232,9 +232,12 @@ def get_artist(artist_id):
 
 def search_track(keyword):
     keyword = keyword.encode("utf8")
-    search_url = 'http://douban.fm/j/v2/query/all?q=%s&start=0&limit=100' \
-        % keyword
-    data = json.loads(_db_h(search_url))
+    search_url = 'http://douban.fm/j/v2/query/all?q={mu}&start=0&limit=100'
+
+    #search_url = 'https://api.douban.com/v2/music/search?q=%s&count=100' % keyword
+    # https://music.douban.com/subject_search?search_text=%E6%88%91&cat=1003
+    # search_url = 'https://music.douban.com/subject_search?search_text= %s &cat=1003' % (keyword)
+    data = json.loads(str(_db_h(search_url.format(mu=keyword)).decode('utf-8')))
     result = []
     for song in data[1]["items"]:
         if not song['playable']:
