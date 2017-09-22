@@ -57,7 +57,7 @@
 
     // playlist window
     $scope.resetWindow = function() {
-      $scope.cover_img_url = '../../images/loading.gif';
+      $scope.d = '../../images/loading.gif';
       $scope.playlist_title = '';
       $scope.songs = [];
     };
@@ -361,7 +361,7 @@
           angularPlayer.play();
         }
         // disable open and play feature
-        angularPlayer.pause();
+         //angularPlayer.pause();
       });
 
       $scope.gotoAnchor = function(newHash) {

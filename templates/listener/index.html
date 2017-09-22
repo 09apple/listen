@@ -37,11 +37,12 @@
         {% endverbatim %}
         <!-- choose playlist dialog -->
         <ul class="dialog-playlist" ng-show="dialog_type==0">
-            {% verbatim %}
+
           <li class="detail-add" ng-click="newDialogOption()">
-            <img src="{% static 'images/mycover.jpg' %}" />
+            <img src="{% static '/images/mycover.jpg' %}" />
             <h2> 新建歌单 </h2>
           </li>
+            {% verbatim %}
           <li ng-repeat="playlist in myplaylist" ng-class-odd="'odd'" ng-class-even="'even'" ng-click="chooseDialogOption(playlist.list_id)">
             <img ng-src="{{ playlist.cover_img_url }}" />
             <h2> {{ playlist.title }} </h2>
@@ -254,18 +255,19 @@
 
     <!-- page footer -->
     <div class="mastfoot" ng-controller="PlayController as playCtrl" ng-init="loadLocalSettings()">
-        {% verbatim %}
+
       <div class="m-playbar" >
         <div class="btns">
           <a class="previous" title="上一首" prev-track >上一首</a>
-          <a class="play" ng-class="{pas: isPlaying}" title="播放/暂停" play-pause-toggle>播放/暂停</a>
+          <a class="play" ng-class="{pas: isPlaying}" title="播放/暂停" play-pause-toggle>播放/暂停 {{ isPlaying }}</a>
           <a class="next" title="下一首" next-track>下一首</a>
         </div>
 
         <div class="head">
-          <img ng-src="{{ currentPlaying.img_url }}" err-src="{% static 'images/placeholder.png' %}">
+          <img ng-src="{{ currentPlaying.img_url }}"  err-src=" {% static 'images/placeholder.png' %} ">
           <a ng-click="showAlbum(currentPlaying.album_id)" class="mask"></a>
         </div>
+          {% verbatim %}
 
         <div class="maininfo">
           <div class="words">

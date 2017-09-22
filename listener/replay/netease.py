@@ -10,6 +10,7 @@ import os.path
 import urllib
 import urllib.request as urllib2
 
+import binascii
 import pyaes
 
 from .replay import h
@@ -40,24 +41,31 @@ modulus = '00e0b509f6259df8642dbc35662901477df22677ec152b5ff68ace615bb7b72' + \
     '5152b3ab17a876aea8a5aa76d2e417629ec4ee341f56135fccf695280104e0312ecbd' + \
     'a92557c93870114af6c9d05c4f7f0c3685b7a46bee255932575cce10b424d813cfe48' + \
     '75d3e82047b97ddef52741d546b8e289dc6935b3ece0462db0a22b8e7'
-nonce = '0CoJUm6Qyw8W8jud'
+#nonce = '0CoJUm6Qyw8W8jud'
+nonce = b'\x2b\x7e\x15\x16\x28\xae\xd2\xa6\xab\xf7\x15\x88\x09\xcf\x4f\x3c'
 pubKey = '010001'
 
 
 def _create_secret_key(size):
-    randlist = map(lambda xx: (hex(ord(xx))[2:]), os.urandom(size))
+    randlist = list(map(lambda xx: (hex(ord(chr(xx)))[2:]), os.urandom(size)))
+    #randlist = os.urandom(size)
+    # newrandlist = []
+    # print(randlist)
+    # for u in randlist:
+    #     newrandlist.append(chr(u))
     return (''.join(randlist))[0:16]
 
 
 def _aes_encrypt(text, sec_key):
     pad = 16 - len(text) % 16
-    text = text + pad * chr(pad)
+    text = text + pad * str(pad)
     aes = pyaes.AESModeOfOperationCBC(sec_key, iv='0102030405060708')
     ciphertext = ''
     while text != '':
-        ciphertext += aes.encrypt(text[:16])
-        text = text[16:]
-    ciphertext = base64.b64encode(ciphertext)
+        #print(aes.encrypt(text[:16]))
+        ciphertext += str(aes.encrypt(text[:16]))
+        text = text[:16]
+    ciphertext = base64.b64encode(ciphertext.encode('ascii'))
     return ciphertext
 
 
@@ -70,6 +78,7 @@ def _rsa_encrypt(text, pub_key, modulus):
 def _encrypted_request(text):
     text = json.dumps(text)
     sec_key = _create_secret_key(16)
+    #sec_key = _changeCode(sec_key)
     enc_text = _aes_encrypt(_aes_encrypt(text, nonce), sec_key)
     enc_sec_key = _rsa_encrypt(sec_key, pubKey, modulus)
     data = {
@@ -77,6 +86,13 @@ def _encrypted_request(text):
         'encSecKey': enc_sec_key
     }
     return data
+
+def _changeCode(data):
+    try:
+        return data.encode('ascii')
+    except UnicodeEncodeError:
+        pass
+    raise ValueError("pyDes can only work with encoded strings, not Unicode.")
 
 
 # 参考 https://github.com/darknessomi/musicbox

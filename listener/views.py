@@ -50,6 +50,8 @@ def Search(request):
         track_list = []
 
     result = dict(result=track_list)
+
+    print(json.dumps(result))
     return HttpResponse(json.dumps(result))
 
 
@@ -201,7 +203,6 @@ def ShowMyPlayList(request):
     resultlist = PlaylistManager.shared_instance(). \
         list_playlist()
     result = dict(result=resultlist)
-    print(result)
     return HttpResponse(result)
 
 
@@ -216,5 +217,4 @@ def _get_captcha():
     filename = str(uuid.uuid4()) + '.jpg'
     path = MEDIA_ROOT + '/temp/' + filename
     token = get_captcha_token(path)
-    print(dict(path='/static/temp/' + filename, token=token))
     return dict(path='/static/temp/' + filename, token=token)
