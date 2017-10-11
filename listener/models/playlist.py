@@ -37,7 +37,9 @@ class PlaylistManager(object):
                 listid = int(l['id'].split('_')[1])
                 if listid >= self.nextid:
                     self.nextid = listid + 1
+            print('YES')
         except:
+            print('NO')
             self.mylists = []
             self.nextid = 1
 
@@ -86,6 +88,8 @@ class PlaylistManager(object):
                 play_count=0,
                 list_id=l['id'],)
             resultlist.append(r)
+
+        print(resultlist)
         return resultlist
 
     def remove_playlist(self, list_id):

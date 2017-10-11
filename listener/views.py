@@ -51,7 +51,6 @@ def Search(request):
 
     result = dict(result=track_list)
 
-    print(json.dumps(result))
     return HttpResponse(json.dumps(result))
 
 
@@ -71,6 +70,7 @@ def ShowPlayList(request):
     return HttpResponse(result)
 
 def trackFile(request):
+    print('trafile!!!')
     url = request.GET.get('url', '')
     artist = request.GET.get('artist')
     album = request.GET.get('album')
